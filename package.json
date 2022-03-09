@@ -1,5 +1,5 @@
 {
-  "name": "helloworld",
+  "name": "ixnestjsapp",
   "description": "Simple hello world sample in Node",
   "version": "1.0.0",
   "private": true,
@@ -17,8 +17,7 @@
   "author": "Google LLC",
   "license": "Apache-2.0",
   "dependencies": {
-    "express": "^4.17.1",
-    "img-style-npm-package": "^4.0.0"
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "google-auth-library": "^7.0.0",
