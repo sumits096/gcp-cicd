@@ -27,7 +27,22 @@ steps:
       "--allow-unauthenticated",
     ]
 
+- name: "gcr.io/$PROJECT_ID/sonar-scanner:latest"
+  args: 
+    - "-Dsonar.host.url=sonarqube_url"
+    - "-Dsonar.login=c2a7631a6e402c338739091ffbc30e5e3d66cf19"
+    - "-Dsonar.projectKey=sample-project"
+    - "-Dsonar.sources=."
+- name: "gcr.io/cloud-builders/docker"
+  args: 
+    - "build"
+    - "-t"
+    - "gcr.io/$PROJECT_ID/html-css-website"
+    - "."
+
+
 images:
 - "gcr.io/$PROJECT_ID/ixnestjsapp:latest"
 - "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"
 - "gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID"
+- "gcr.io/$PROJECT_ID/html-css-website"
