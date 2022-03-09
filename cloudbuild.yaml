@@ -8,7 +8,7 @@ steps:
 # Push the container image to Container Registry
 - name: "gcr.io/cloud-builders/docker"
   args: ["push", "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"]
-  id: "push-image-to-container-registery"
+  id: "push-image-to-container-registry"
   waitFor: ["build-image-ixnestjsapp"] # The push start once build is done
 
 # Deploy container image to Cloud Run
