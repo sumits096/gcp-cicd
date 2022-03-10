@@ -32,49 +32,34 @@
 # - "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"
 # - "gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID"
 
-substitutions:
-  _DOCKER_COMPOSE_VERSION: 1.28.2
-steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: 
-    [
-      "build",
-      "--build-arg",
-      "DOCKER_COMPOSE_VERSION=${_DOCKER_COMPOSE_VERSION}",
-      "-t",
-      "gcr.io/$PROJECT_ID/docker-compose:latest",
-      "-t",
-      "gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}",
-      "."
-    ]
-  id: "build-image-sonarcube"
-  waitFor: ["-"]
-# - name: 'gcr.io/$PROJECT_ID/docker-compose'
-#   args: ['version']
+version: "3"
+services:
+  sonarqube:
+    image: sonarqube:community
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - "9000:9000"
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
 
-# Push the container image to Container Registry
-- name: "gcr.io/cloud-builders/docker"
-  args: ["push", "gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}"]
-  id: "push-image-to-container-registry"
-  waitFor: ["build-image-sonarcube"] # The push start once build is done
-
-# Deploy container image to Cloud Run
-- name: "gcr.io/cloud-builders/gcloud"
-  args:
-    [
-      "run",
-      "deploy",
-      "sonarcube",
-      "--image",
-      "gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}",
-      "--region",
-      "us-west2",
-      "--platform",
-      "managed",
-      "--allow-unauthenticated",
-    ]
-
-images:
-- 'gcr.io/$PROJECT_ID/docker-compose:latest'
-- 'gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}'
-tags: ['cloud-builders-community']
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  postgresql:
+  postgresql_data:
