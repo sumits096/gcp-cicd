@@ -37,7 +37,6 @@ substitutions:
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
-  - echo 'docker --version'
   - 'build'
   - '--build-arg'
   - 'DOCKER_COMPOSE_VERSION=${_DOCKER_COMPOSE_VERSION}'
