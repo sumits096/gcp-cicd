@@ -32,6 +32,7 @@
 # - "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"
 # - "gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID"
 
+steps:
 version: "3"
 services:
   sonarqube:
