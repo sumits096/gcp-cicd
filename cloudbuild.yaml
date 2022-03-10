@@ -45,8 +45,8 @@ steps:
   - '-t'
   - 'gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}'
   - '.'
-- name: 'gcr.io/$PROJECT_ID/docker-compose'
-  args: ['version']
+# - name: 'gcr.io/$PROJECT_ID/docker-compose'
+#   args: ['version']
 
 images:
 - 'gcr.io/$PROJECT_ID/docker-compose:latest'
