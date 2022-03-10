@@ -36,17 +36,33 @@ substitutions:
   _DOCKER_COMPOSE_VERSION: 1.28.2
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args:
-  - 'build'
-  - '--build-arg'
-  - 'DOCKER_COMPOSE_VERSION=${_DOCKER_COMPOSE_VERSION}'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/docker-compose:latest'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}'
-  - '.'
+  args:["build","--build-arg","DOCKER_COMPOSE_VERSION=${_DOCKER_COMPOSE_VERSION}","-t","gcr.io/$PROJECT_ID/docker-compose:latest","-t","gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}", ".",]
+  id: "build-image-sonarcube"
+  waitFor: ["-"]
 # - name: 'gcr.io/$PROJECT_ID/docker-compose'
 #   args: ['version']
+
+# Push the container image to Container Registry
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}"]
+  id: "push-image-to-container-registry"
+  waitFor: ["build-image-sonarcube"] # The push start once build is done
+
+# Deploy container image to Cloud Run
+- name: "gcr.io/cloud-builders/gcloud"
+  args:
+    [
+      "run",
+      "deploy",
+      "sonarcube",
+      "--image",
+      "gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}",
+      "--region",
+      "us-west2",
+      "--platform",
+      "managed",
+      "--allow-unauthenticated",
+    ]
 
 images:
 - 'gcr.io/$PROJECT_ID/docker-compose:latest'
