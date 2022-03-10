@@ -17,7 +17,11 @@ steps:
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA']
+  args: 
+    [
+      'push', 
+      'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA'
+    ]
   id: 'push-image-to-container-registry'
   waitFor: ['build-image-ixnestjsapp'] # The push start once build is done
 
@@ -37,23 +41,7 @@ steps:
       '--allow-unauthenticated',
     ]
 
-- name: 'gcr.io/$PROJECT_ID/ixnestjsapp:latest'
-  args: 
-    - '-Dsonar.host.url=https://sonarcloud.io/'
-    - '-Dsonar.login=77ba6ee9d4e34afb2bed33ff2a9261838119f480'
-    - '-Dsonar.projectKey=sumits096'
-    - '-Dsonar.sources=.'
-    
-- name: 'gcr.io/cloud-builders/docker'
-  args: 
-    - 'build'
-    - '-t'
-    - 'gcr.io/$PROJECT_ID/ixnestjsapp'
-    - '.'
-
-
 images:
 - 'gcr.io/$PROJECT_ID/ixnestjsapp:latest'
 - 'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA'
 - 'gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID'
-- 'gcr.io/$PROJECT_ID/ixnestjsapp'
