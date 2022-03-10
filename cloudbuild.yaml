@@ -1,66 +1,58 @@
-# steps:
-# # Build the container image
-# - name: "gcr.io/cloud-builders/docker"
-#   args: [ "build", "-t", "gcr.io/$PROJECT_ID/ixnestjsapp:latest", "-t", "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA", "-t", "gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID", ".", ]
-#   id: "build-image-ixnestjsapp"
-#   waitFor: ["-"] # The '-' indicates that this step begin immediately
-
-# # Push the container image to Container Registry
-# - name: "gcr.io/cloud-builders/docker"
-#   args: ["push", "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"]
-#   id: "push-image-to-container-registry"
-#   waitFor: ["build-image-ixnestjsapp"] # The push start once build is done
-
-# # Deploy container image to Cloud Run
-# - name: "gcr.io/cloud-builders/gcloud"
-#   args:
-#     [
-#       "run",
-#       "deploy",
-#       "ixnestjsapp",
-#       "--image",
-#       "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA",
-#       "--region",
-#       "us-west2",
-#       "--platform",
-#       "managed",
-#       "--allow-unauthenticated",
-#     ]
-
-# images:
-# - "gcr.io/$PROJECT_ID/ixnestjsapp:latest"
-# - "gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA"
-# - "gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID"
-
 steps:
-version: "3"
-services:
-  sonarqube:
-    image: sonarqube:community
-    depends_on:
-      - db
-    environment:
-      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
-      SONAR_JDBC_USERNAME: sonar
-      SONAR_JDBC_PASSWORD: sonar
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
-    ports:
-      - "9000:9000"
-  db:
-    image: postgres:12
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-    volumes:
-      - postgresql:/var/lib/postgresql
-      - postgresql_data:/var/lib/postgresql/data
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    [ 
+      'build',
+      '-t',
+      'gcr.io/$PROJECT_ID/ixnestjsapp:latest',
+      '-t',
+      'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA',
+      '-t',
+      'gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID',
+      '.'
+    ]
+  id: 'build-image-ixnestjsapp'
+  waitFor: ['-'] # The '-' indicates that this step begin immediately
 
-volumes:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
-  postgresql:
-  postgresql_data:
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA']
+  id: 'push-image-to-container-registry'
+  waitFor: ['build-image-ixnestjsapp'] # The push start once build is done
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    [
+      'run',
+      'deploy',
+      'ixnestjsapp',
+      '--image',
+      'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA',
+      '--region',
+      'us-west2',
+      '--platform',
+      'managed',
+      '--allow-unauthenticated',
+    ]
+
+# - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
+#   args: 
+#     - '-Dsonar.host.url=sonarqube_url'
+#     - '-Dsonar.login=c2a7631a6e402c338739091ffbc30e5e3d66cf19'
+#     - '-Dsonar.projectKey=sample-project'
+#     - '-Dsonar.sources=.'
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: 
+#     - 'build'
+#     - '-t'
+#     - 'gcr.io/$PROJECT_ID/html-css-website'
+#     - '.'
+
+
+images:
+- 'gcr.io/$PROJECT_ID/ixnestjsapp:latest'
+- 'gcr.io/$PROJECT_ID/ixnestjsapp:$COMMIT_SHA'
+- 'gcr.io/$PROJECT_ID/ixnestjsapp:$BUILD_ID'
+# - 'gcr.io/$PROJECT_ID/html-css-website'
