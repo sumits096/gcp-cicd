@@ -37,12 +37,13 @@ steps:
       '--allow-unauthenticated',
     ]
 
-- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
+- name: 'gcr.io/$PROJECT_ID/ixnestjsapp:latest'
   args: 
     - '-Dsonar.host.url=https://sonarcloud.io/'
     - '-Dsonar.login=77ba6ee9d4e34afb2bed33ff2a9261838119f480'
     - '-Dsonar.projectKey=sumits096'
     - '-Dsonar.sources=.'
+    
 - name: 'gcr.io/cloud-builders/docker'
   args: 
     - 'build'
