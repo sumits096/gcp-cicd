@@ -10,7 +10,7 @@ RUN npm install --only=development
 
 COPY . .
 
-RUN nest build
+RUN npm run-script build
 
 FROM node:14-slim as production
 
