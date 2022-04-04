@@ -1,64 +1,62 @@
-# Cloud Run Hello World Sample
+## Boomtown Connector
+Boomtown connector provides API call for the Boomtown api's.
 
-This sample shows how to deploy a Hello World application to Cloud Run.
+### Table Of Contents
 
-For more details on how to work with this sample read the [Google Cloud Run Node.js Samples README](https://github.com/GoogleCloudPlatform/nodejs-docs-samples/tree/main/run).
+- [Overview](#overview)
+- [Technologies](#technologies)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the app](#running-the-app)
+- [Test the app](#test)
+- [Author](#author)
+- [License](#license)
 
-## Local Development
+## Overview
+Connector-ts provides open source NestJs application that allows you to access the Boomtown SDK from your application.
 
-### `npm run e2e-test`
+## Technologies
+- NestJs
 
-```
-export SERVICE_NAME=helloworld
-export CONTAINER_IMAGE=gcr.io/${GOOGLE_CLOUD_PROJECT}/helloworld
-npm run e2e-test
-```
+## Prerequisites
+Please make sure that Node.js (>= 6.11.0) is installed on your operating system.
 
-## Using Testing Scripts
+## Installation
 
-### url.sh
-
-The `url.sh` script derives the automatically provisioned URL of a deployed
-Cloud Run service.
-
-```sh
-export SERVICE_NAME=helloworld
-export REGION=us-central1
-test/url.sh
-```
-
-### deploy.sh
-
-The `deploy.sh` script deploys a Cloud Run service.
-
-```sh
-export SERVICE_NAME=helloworld
-export CONTAINER_IMAGE=gcr.io/${GOOGLE_CLOUD_PROJECT}/helloworld
-export REGION=us-central1
-test/deploy.sh
+```bash
+$ npm install
 ```
 
-### runner.sh
+## Running the app
 
-The `runner.sh` script:
+```bash
+# development
+$ npm run start
 
-* Deploys the service to Cloud Run based on the `deploy.sh` script.
-* Sets the `BASE_URL` and `ID_TOKEN` environment variables.
-* Runs any arguments passed to the `runner.sh` script.
-* Tears down the Cloud Run service on completion.
+# watch mode
+$ npm run start:dev
 
-```sh
-test/runner.sh sleep 20
+# production mode
+$ npm run start:prod
 ```
 
-## Environment Variables (Testing)
+## Test
 
-* `BASE_URL`: Specifies the Cloud Run service URL for end-to-end tests.
-* `ID_TOKEN`: JWT token used to authenticate with Cloud Run's IAM-based authentication.
-* `REGION`: [`us-central1`] Optional override region for the location of the Cloud Run service.
-* `SERVICE_NAME`: The name of the deployed service, used in some API calls and test assertions.
+```bash
+# unit tests
+$ npm run test
 
-## Dependencies
+# e2e tests
+$ npm run test:e2e
 
-* **express**: Web server framework.
-* **got**: [Testing] Used to make HTTP requests of the running service in end-to-end testing.
+# test coverage
+$ npm run test:cov
+```
+
+## Author
+
+[Boomtown Team](developers@goboomtown.com)
+
+## License
+
+Copyright © 2021 [Boomtown](developers@goboomtown.com)
