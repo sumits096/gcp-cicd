@@ -1,30 +1,13 @@
-FROM node:14-slim
-
-FROM node:14-slim As development
+FROM node:14
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY ./package*.json ./
 
-RUN npm install --only=development
-
-COPY . .
-
-RUN npm run-script build
-
-FROM node:14-slim as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install --only=production
+RUN npm install
 
 COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+RUN npm run build
 
-CMD ["node", "dist/main"]
+CMD [ "npm", "run", "start:prod" ]
