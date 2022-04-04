@@ -1,62 +1,98 @@
-## Boomtown Connector
-Boomtown connector provides API call for the Boomtown api's.
+# Overview
 
-### Table Of Contents
+This repository contains the open source NestJs application that allows you to access the Boomtown SDK from your application.
 
-- [Overview](#overview)
-- [Technologies](#technologies)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Running the app](#running-the-app)
-- [Test the app](#test)
-- [Author](#author)
-- [License](#license)
+## Table of Contents
+- [Connector](#connector)
+- [Docs](#docs)
+- [Notes](#notes)
 
-## Overview
-Connector-ts provides open source NestJs application that allows you to access the Boomtown SDK from your application.
+## Getting Started
+In order to build the TypeScript compiler, ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org/) installed.
 
-## Technologies
-- NestJs
-
-## Prerequisites
-Please make sure that Node.js (>= 6.11.0) is installed on your operating system.
-
-## Installation
-
+### Clone a copy of the repo:
 ```bash
-$ npm install
+git clone https://github.com/goboomtown/connector-ts.git
 ```
 
-## Running the app
-
+### Change to the connector directory:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cd connector
 ```
 
-## Test
-
+### Install dev dependencies:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Author
+### What's included
 
-[Boomtown Team](developers@goboomtown.com)
+Within the download you'll find the following directories and files:
 
-## License
+```
+connector-ts
+├── connector
+|   ├── src
+|   |   ├── core
+|   │   |    ├── exception
+|   |   |    |   └── index.ts
+|   │   |    ├── helpers
+|   |   |    |   └── index.ts
+|   │   |    └── services
+|   |   |        └── index.ts
+|   |   ├── presentation
+|   │   |    ├── controllers
+|   |   |    |   └── index.ts
+|   │   |    ├── mapper
+|   |   |    |   └── index.ts
+|   │   |    └── models
+|   |   |        └── index.ts
+|   │   ├── app.controller.spec.ts.
+|   │   ├── app.controller.ts
+|   │   ├── app.module.ts
+|   │   ├── app.service.ts
+|   │   └── main.ts    
+|   ├── test
+|   │   ├── app.e2e-spec.ts
+|   │   └── jest-e2e.json
+|   ├── .eslintrc.js
+|   ├── nest-cli.json
+|   ├── package-lock.json
+|   ├── package.json
+|   ├── README.md
+|   ├── styles.css
+|   ├── test.ts
+|   ├── tsconfig.build.json
+|   └── tsconfig.json
+├── docs
+|   ├── decisions
+|   |   ├── 0001-use-of-typescript.md
+|   |   ├── 0002-use-nestjs-for-connector.md
+|   |   ├── 0003-typescript-style-guide.md
+|   |   ├── 0004-use-dashes-in-filenames.md
+|   |   ├── 0005-github-commit-message-guidelines.md
+|   |   └── adr-template.md
+|   └── index.md
+└── README.md
 
-Copyright © 2021 [Boomtown](developers@goboomtown.com)
+```
+
+## Connector 
+
+### Core
+Core layer includes services that contains methods for each Boomtown entity API endpoints.
+
+### Presentation
+Presentation layer includes controllers for API.
+
+## Docs
+
+### Documentation for ADR
+For new ADRs, please use [adr-template.md](docs/decisions/adr-template.md) as base template
+
+- [ADR-0001](docs/decisions/0001-use-of-typescript.md) - Use of Typescript
+- [ADR-0002](docs/decisions/0002-use-nestjs-for-connector.md) - Use NestJs for Connector
+- [ADR-0003](docs/decisions/0003-typescript-style-guide.md) - Use TypeScript Code Style 
+- [ADR-0004](docs/decisions/0004-use-dashes-in-filenames.md) - Use Dashes in file name 
+- [ADR-0005](docs/decisions/0005-github-commit-message-guidelines.md) - Use GitHub Commit Standards
+- [ADR-0006](docs/decisions/0006-use-of-internal-spec.md) - Use of Internal Spec
